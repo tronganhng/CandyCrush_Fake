@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74703af63484c4168acc33f75f2f19be, type: 3}
+  m_Name: NormalCandy OS
+  m_EditorClassIdentifier: 
+  candies:
+  - <sprite>k__BackingField: {fileID: 21300000, guid: 32a21180eede9924eb1b37f03519bd24, type: 3}
+    <color>k__BackingField: 0
+    <explodeController>k__BackingField: {fileID: 9100000, guid: 75ccdf4182b854697abde5100d375f94, type: 2}
+    <maxHealth>k__BackingField: 1
+  - <sprite>k__BackingField: {fileID: 21300000, guid: b64d9d08131b9f8448d01aeb8fdb5819, type: 3}
+    <color>k__BackingField: 1
+    <explodeController>k__BackingField: {fileID: 9100000, guid: 1050457a1a3384368ae8e664cfecff4b, type: 2}
+    <maxHealth>k__BackingField: 1
+  - <sprite>k__BackingField: {fileID: 21300000, guid: 0e6ae7f7e48c9614fbca3b45f3ca8b0a, type: 3}
+    <color>k__BackingField: 2
+    <explodeController>k__BackingField: {fileID: 9100000, guid: f1f6f2115507a454d871bb3bd0324b43, type: 2}
+    <maxHealth>k__BackingField: 1
+  - <sprite>k__BackingField: {fileID: 21300000, guid: 302e075b52d5dbb428c812c4fa0c4186, type: 3}
+    <color>k__BackingField: 3
+    <explodeController>k__BackingField: {fileID: 9100000, guid: a192a41fd97a04c0c8bc965e135c3582, type: 2}
+    <maxHealth>k__BackingField: 1
+  - <sprite>k__BackingField: {fileID: 21300000, guid: f8bb0313bfa76b346a62a17d92c94b3d, type: 3}
+    <color>k__BackingField: 4
+    <explodeController>k__BackingField: {fileID: 9100000, guid: 4b41bd56bfbca4754a7d2a301c38333f, type: 2}
+    <maxHealth>k__BackingField: 1
+  - <sprite>k__BackingField: {fileID: 21300000, guid: 3373b0cf251d9e04baa406fb813dbedf, type: 3}
+    <color>k__BackingField: 5
+    <explodeController>k__BackingField: {fileID: 9100000, guid: e047d986c6df9432480000cca91f014a, type: 2}
+    <maxHealth>k__BackingField: 1
