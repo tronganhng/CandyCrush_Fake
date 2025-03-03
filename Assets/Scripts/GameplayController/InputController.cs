@@ -21,7 +21,7 @@ public class InputController : MonoBehaviour
         {
             if (controller.candyGrid[pos.x, pos.y].hitType != HitType.ColorBomb)
             {
-                controller.BFS(pos.x, pos.y);
+                controller.BFS(pos.x, pos.y, controller.matchCnt);
             }
             else
             {

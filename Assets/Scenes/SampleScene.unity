@@ -1247,8 +1247,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5e31ef279d0f4fbc87c4cc09146d5ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  matchCnt: 3
   candyMoving: 0
-  candyHitCnt: 0
 --- !u!114 &1765049798
 MonoBehaviour:
   m_ObjectHideFlags: 0

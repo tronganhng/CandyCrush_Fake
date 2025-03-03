@@ -7,10 +7,11 @@ public class Controller : MonoBehaviour
 {
     public static Controller Instance;
 
+    public int matchCnt;
     public bool candyMoving;
-    private Dictionary<int, int> spawnY = new Dictionary<int, int>();
     public Candy[,] candyGrid;
-    [SerializeField] private int candyHitCnt = 0;
+    private Vector2Int matrixSize;
+    private int candyHitCnt = 0;
     void Awake()
     {
         if (Instance != null) Destroy(this);
@@ -20,14 +21,16 @@ public class Controller : MonoBehaviour
     void Start()
     {
         candyGrid = CandyCreator.Instance.candyGrid;
+        matrixSize = CandyCreator.Instance.matrixSize;
     }
 
     // Detect match
-    public void BFS(int startX, int startY)
+    public void BFS(int startX, int startY, int matchCnt)
     {
-        int row = CandyCreator.Instance.matrixSize.x;
-        int col = CandyCreator.Instance.matrixSize.y;
+        int row = matrixSize.x;
+        int col = matrixSize.y;
         CandyColor color = candyGrid[startX, startY].color;
+        if(color == CandyColor.RainBow) return;
 
         Queue<(int, int)> queue = new Queue<(int, int)>();
         List<(int, int)> cluster = new List<(int, int)>(); // các ô đã đi qua quêu
@@ -61,18 +64,17 @@ public class Controller : MonoBehaviour
             }
         }
 
-        if (cluster.Count >= 2) // Nếu có ít nhất 3 kẹo cùng loại
+        if (cluster.Count >= matchCnt) // Nếu có ít nhất 3 kẹo cùng loại
         {
-            candyHitCnt = cluster.Count;
+            candyHitCnt += cluster.Count;
             foreach (var (x, y) in cluster)
             {
                 HitCandy(x, y, color);
             }
-            //Delay
             StartCoroutine(DropCandies());
         }
     }
-    
+
     private void HitCandy(int x, int y, CandyColor color)
     {
         if (candyGrid[x, y] == null)
@@ -105,11 +107,10 @@ public class Controller : MonoBehaviour
         candyHitCnt--;
         candyGrid[x, y].Explode();
         candyGrid[x, y] = null;
-        SpawnY(x);
     }
     private IEnumerator HitStripeHor(int x, int y)
     {
-        int sizeX = CandyCreator.Instance.matrixSize.x;
+        int sizeX = matrixSize.x;
         candyHitCnt += sizeX - 1;
         CandyColor color = candyGrid[x, y].color;
         HitCell(x, y);
@@ -129,7 +130,7 @@ public class Controller : MonoBehaviour
     }
     private IEnumerator HitStripeVer(int x, int y)
     {
-        int sizeY = CandyCreator.Instance.matrixSize.y;
+        int sizeY = matrixSize.y;
         candyHitCnt += sizeY - 1;
         CandyColor color = candyGrid[x, y].color;
         HitCell(x, y);
@@ -165,9 +166,7 @@ public class Controller : MonoBehaviour
     }
     private bool ValidatePos(int x, int y)
     {
-        int sizeX = CandyCreator.Instance.matrixSize.x;
-        int sizeY = CandyCreator.Instance.matrixSize.y;
-        if (x < 0 || y < 0 || x > sizeX - 1 || y > sizeY - 1)
+        if (x < 0 || y < 0 || x > matrixSize.x - 1 || y > matrixSize.y - 1)
         {
             return false;
         }
@@ -175,15 +174,13 @@ public class Controller : MonoBehaviour
     }
     public void ColorBomb(int x, int y, CandyColor color)
     {
-        //spawnY.Clear();
-        Vector2Int matrixSize = CandyCreator.Instance.matrixSize;
         HitCell(x, y);
-        for(int i = 0; i < matrixSize.x; i++)
+        for (int i = 0; i < matrixSize.x; i++)
         {
-            for(int j = 0; j < matrixSize.y; j++)
+            for (int j = 0; j < matrixSize.y; j++)
             {
-                if(candyGrid[i, j] == null) continue;
-                if(candyGrid[i, j].color == color)
+                if (candyGrid[i, j] == null) continue;
+                if (candyGrid[i, j].color == color)
                 {
                     candyHitCnt++;
                     HitCandy(i, j, color);
@@ -193,15 +190,14 @@ public class Controller : MonoBehaviour
     }
     public IEnumerator ClearBoad()
     {
-        Vector2Int matrixSize = CandyCreator.Instance.matrixSize;
-        for(int x = 0; x < matrixSize.x; x++)
+        for (int x = 0; x < matrixSize.x; x++)
         {
-            for(int y = 0; y < matrixSize.y; y++)
+            for (int y = 0; y < matrixSize.y; y++)
             {
                 candyHitCnt++;
                 HitCell(x, y);
             }
-            if(x < matrixSize.x - 1) yield return new WaitForSeconds(.05f);
+            if (x < matrixSize.x - 1) yield return new WaitForSeconds(.05f);
         }
         StartCoroutine(DropCandies());
     }
@@ -210,6 +206,8 @@ public class Controller : MonoBehaviour
         candyMoving = true;
         while (candyHitCnt > 0) yield return null;
         yield return new WaitForSeconds(.3f);
+        SpawnCandies();
+        candyHitCnt = 0;
         for (int x = 0; x < candyGrid.GetLength(0); x++)
         {
             for (int y = 1; y < candyGrid.GetLength(1); y++)
@@ -229,18 +227,43 @@ public class Controller : MonoBehaviour
                 candyGrid[x, y] = null;
             }
         }
-        spawnY.Clear();
+        while (candyMoving) yield return null;
+        ScanCombo();
     }
-    private void SpawnY(int x)
+    private void SpawnCandies()
     {
-        if (spawnY.ContainsKey(x))
+        Dictionary<int, int> spawnY = new Dictionary<int, int>();
+        for (int x = 0; x < matrixSize.x; x++)
         {
-            spawnY[x]++;
+            for (int y = 0; y < matrixSize.y; y++)
+            {
+                if (candyGrid[x, y] == null)
+                {
+                    if (spawnY.ContainsKey(x))
+                    {
+                        spawnY[x]++;
+                    }
+                    else
+                    {
+                        spawnY[x] = matrixSize.y;
+                    }
+                    CandyCreator.Instance.CreateCandy(new Vector2Int(x, spawnY[x]));
+                }
+            }
         }
-        else
+    }
+
+    public void ScanCombo()
+    {
+        candyHitCnt += 1;
+        for (int x = 0; x < matrixSize.x; x++)
         {
-            spawnY[x] = CandyCreator.Instance.matrixSize.y;
+            for (int y = 0; y < matrixSize.y; y++)
+            {
+                if (candyGrid[x, y] == null) continue;
+                BFS(x, y, matchCnt + 1);
+            }
         }
-        CandyCreator.Instance.CreateCandy(new Vector2Int(x, spawnY[x]));
+        candyHitCnt -= 1;
     }
 }
