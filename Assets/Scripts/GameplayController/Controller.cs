@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ public class Controller : MonoBehaviour
 {
     public static Controller Instance;
 
+    public event Action OnCandyMatched;
     public int matchCnt;
     public bool candyMoving;
     public Candy[,] candyGrid;
@@ -22,6 +24,7 @@ public class Controller : MonoBehaviour
     {
         candyGrid = CandyCreator.Instance.candyGrid;
         matrixSize = CandyCreator.Instance.matrixSize;
+        OnCandyMatched += SpawnCandies;
     }
 
     // Detect match
@@ -83,7 +86,7 @@ public class Controller : MonoBehaviour
             {
                 case 3: break;
                 case 4:
-                    if(Random.Range(0,2) == 0) CandyCreator.Instance.CreateCandyBy(spawnPos, targetColor, HitType.StripeHor);
+                    if(UnityEngine.Random.Range(0,2) == 0) CandyCreator.Instance.CreateCandyBy(spawnPos, targetColor, HitType.StripeHor);
                     else CandyCreator.Instance.CreateCandyBy(spawnPos, targetColor, HitType.StripeVer);
                     break;
                 case 5:
@@ -126,6 +129,7 @@ public class Controller : MonoBehaviour
     }
     private void HitCell(int x, int y)
     {
+        ScoreManager.Instance.OnCandyHitted(candyGrid[x, y].color, candyGrid[x, y].hitType);
         candyHitCnt--;
         candyGrid[x, y].Explode();
         candyGrid[x, y] = null;
@@ -228,7 +232,7 @@ public class Controller : MonoBehaviour
         candyMoving = true;
         while (candyHitCnt > 0) yield return null;
         yield return new WaitForSeconds(.3f);
-        SpawnCandies();
+        OnCandyMatched?.Invoke();
         candyHitCnt = 0;
         for (int x = 0; x < candyGrid.GetLength(0); x++)
         {
