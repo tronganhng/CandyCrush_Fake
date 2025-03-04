@@ -14,11 +14,11 @@ public class InputController : MonoBehaviour
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
-        if (hit.collider == null || 1 << hit.collider.gameObject.layer != candyLayer) return;
-
-        Vector2Int pos = hit.collider.GetComponent<Candy>().matrixPos;
+        
         if (currentBomb == null)
         {
+            if (hit.collider == null || 1 << hit.collider.gameObject.layer != candyLayer) return;
+            Vector2Int pos = hit.collider.GetComponent<Candy>().matrixPos;
             if (controller.candyGrid[pos.x, pos.y].hitType != HitType.ColorBomb)
             {
                 controller.ScoreBy(controller.BFS(controller.candyGrid, pos.x, pos.y), controller.matchCnt);
@@ -31,6 +31,13 @@ public class InputController : MonoBehaviour
         }
         else
         {
+            if (hit.collider == null || 1 << hit.collider.gameObject.layer != candyLayer)
+            {
+                SelectBomb(currentBomb.matrixPos, false, 0);
+                currentBomb = null;
+                return;
+            }
+            Vector2Int pos = hit.collider.GetComponent<Candy>().matrixPos;
             Vector2Int bombPos = currentBomb.matrixPos;
             SelectBomb(bombPos, false, 0);
             if ((pos.y == bombPos.y && Mathf.Abs(pos.x - bombPos.x) == 1) || (pos.x == bombPos.x && Mathf.Abs(pos.y - bombPos.y) == 1))

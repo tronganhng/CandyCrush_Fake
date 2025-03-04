@@ -35,7 +35,7 @@ public class CandyCreator : MonoBehaviour
         }
     }
 
-    public void CreateCandy(Vector2Int position)
+    public void CreateRandomCandy(Vector2Int position)
     {
         int random = Random.Range(0, 100);
         GameObject candyObj = CandyPool.Instance.GetCandy();
@@ -69,7 +69,21 @@ public class CandyCreator : MonoBehaviour
         candyGrid[position.x, position.y] = candyObj.GetComponent<Candy>();
         candyGrid[position.x, position.y].matrixPos = new Vector2Int(position.x, position.y);
     }
-
+    public void CreateCandyBy(Vector2Int position, CandyColor color, HitType hitType)
+    {
+        GameObject candyObj = CandyPool.Instance.GetCandy();
+        if(hitType == HitType.ColorBomb)
+        {
+            candyObj.GetComponent<Candy>().SetInfo(candyOs[(int)hitType].candies[0]);
+        }
+        else
+        {
+            candyObj.GetComponent<Candy>().SetInfo(candyOs[(int)hitType].candies[(int)color]);
+        }
+        candyObj.transform.localPosition = (Vector2)position;
+        candyGrid[position.x, position.y] = candyObj.GetComponent<Candy>();
+        candyGrid[position.x, position.y].matrixPos = new Vector2Int(position.x, position.y);
+    }
     public void RefreshGrid()
     {
         Candy[,] testGrid = new Candy[matrixSize.x, matrixSize.y];

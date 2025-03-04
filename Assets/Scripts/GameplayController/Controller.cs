@@ -1,6 +1,6 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Controller : MonoBehaviour
@@ -76,6 +76,22 @@ public class Controller : MonoBehaviour
             foreach (var (x, y) in cluster)
             {
                 HitCandy(x, y, targetColor);
+            }
+            // spawn skill candy
+            Vector2Int spawnPos = new Vector2Int(cluster[0].Item1, cluster[0].Item2);
+            switch (cluster.Count)
+            {
+                case 3: break;
+                case 4:
+                    if(Random.Range(0,2) == 0) CandyCreator.Instance.CreateCandyBy(spawnPos, targetColor, HitType.StripeHor);
+                    else CandyCreator.Instance.CreateCandyBy(spawnPos, targetColor, HitType.StripeVer);
+                    break;
+                case 5:
+                    CandyCreator.Instance.CreateCandyBy(spawnPos, targetColor, HitType.Area);
+                    break;
+                default:
+                    CandyCreator.Instance.CreateCandyBy(spawnPos, CandyColor.RainBow, HitType.ColorBomb);
+                    break;
             }
             StartCoroutine(DropCandies());
         }
@@ -253,7 +269,7 @@ public class Controller : MonoBehaviour
                     {
                         spawnY[x] = matrixSize.y;
                     }
-                    CandyCreator.Instance.CreateCandy(new Vector2Int(x, spawnY[x]));
+                    CandyCreator.Instance.CreateRandomCandy(new Vector2Int(x, spawnY[x]));
                 }
             }
         }
@@ -269,6 +285,7 @@ public class Controller : MonoBehaviour
             {
                 if (candyGrid[x, y] == null) continue;
                 cluster = BFS(candyGrid, x, y);
+                if(cluster == null) continue;
                 if(cluster.Count >= matchCnt + 1) canCombo = true;
                 ScoreBy(cluster, matchCnt + 1);
             }
