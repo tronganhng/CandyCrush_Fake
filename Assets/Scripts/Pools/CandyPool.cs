@@ -21,7 +21,7 @@ public class CandyPool : MonoBehaviour
         CreatePool(candyPrefab, matrixSize.x * matrixSize.y * 2);
         // set pos to center screen
         Vector2 camPos = Camera.main.transform.position;
-        transform.position = camPos - new Vector2(matrixSize.x / 2 - .5f, matrixSize.y / 2 - .5f);
+        transform.position = camPos - new Vector2(matrixSize.x / 2 - .5f, matrixSize.y / 2);
     }
 
     private void CreatePool(GameObject preFab, int size)

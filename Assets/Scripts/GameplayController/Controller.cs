@@ -25,12 +25,12 @@ public class Controller : MonoBehaviour
     }
 
     // Detect match
-    public void BFS(int startX, int startY, int matchCnt)
+    public List<(int, int)> BFS(Candy[,] matrix, int startX, int startY)
     {
         int row = matrixSize.x;
         int col = matrixSize.y;
-        CandyColor color = candyGrid[startX, startY].color;
-        if(color == CandyColor.RainBow) return;
+        CandyColor color = matrix[startX, startY].color;
+        if (color == CandyColor.RainBow) return null;
 
         Queue<(int, int)> queue = new Queue<(int, int)>();
         List<(int, int)> cluster = new List<(int, int)>(); // các ô đã đi qua quêu
@@ -53,9 +53,9 @@ public class Controller : MonoBehaviour
                 int newY = y + dy[d];
 
                 if (newX >= 0 && newX < row && newY >= 0 && newY < col &&
-                    !visited[newX, newY] && candyGrid[newX, newY] != null)
+                    !visited[newX, newY] && matrix[newX, newY] != null)
                 {
-                    if (candyGrid[newX, newY].color == color)
+                    if (matrix[newX, newY].color == color)
                     {
                         queue.Enqueue((newX, newY));
                         visited[newX, newY] = true;
@@ -64,12 +64,18 @@ public class Controller : MonoBehaviour
             }
         }
 
+        return cluster;
+    }
+    public void ScoreBy(List<(int, int)> cluster, int matchCnt)
+    {
+        if (cluster == null) return;
+        CandyColor targetColor = candyGrid[cluster[0].Item1, cluster[0].Item2].color;
         if (cluster.Count >= matchCnt) // Nếu có ít nhất 3 kẹo cùng loại
         {
             candyHitCnt += cluster.Count;
             foreach (var (x, y) in cluster)
             {
-                HitCandy(x, y, color);
+                HitCandy(x, y, targetColor);
             }
             StartCoroutine(DropCandies());
         }
@@ -228,7 +234,7 @@ public class Controller : MonoBehaviour
             }
         }
         while (candyMoving) yield return null;
-        ScanCombo();
+        if(!ScanCombo()) CandyCreator.Instance.RefreshGrid();
     }
     private void SpawnCandies()
     {
@@ -252,18 +258,22 @@ public class Controller : MonoBehaviour
             }
         }
     }
-
-    public void ScanCombo()
+    private bool ScanCombo()
     {
+        bool canCombo = false;
         candyHitCnt += 1;
+        List<(int, int)> cluster;
         for (int x = 0; x < matrixSize.x; x++)
         {
             for (int y = 0; y < matrixSize.y; y++)
             {
                 if (candyGrid[x, y] == null) continue;
-                BFS(x, y, matchCnt + 1);
+                cluster = BFS(candyGrid, x, y);
+                if(cluster.Count >= matchCnt + 1) canCombo = true;
+                ScoreBy(cluster, matchCnt + 1);
             }
         }
         candyHitCnt -= 1;
+        return canCombo;
     }
 }
