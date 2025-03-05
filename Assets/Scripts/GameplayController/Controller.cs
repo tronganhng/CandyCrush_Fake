@@ -7,7 +7,7 @@ public class Controller : MonoBehaviour
 {
     public static Controller Instance;
 
-    public event Action OnCandyMatched;
+    public event Action OnCandyMatched, OnTurnComplete;
     public int matchCnt;
     public bool candyMoving;
     public Candy[,] candyGrid;
@@ -74,6 +74,7 @@ public class Controller : MonoBehaviour
         CandyColor targetColor = candyGrid[cluster[0].Item1, cluster[0].Item2].color;
         if (cluster.Count >= matchCnt) // Nếu có ít nhất 3 kẹo cùng loại
         {
+            OnTurnComplete?.Invoke();
             candyHitCnt += cluster.Count;
             foreach (var (x, y) in cluster)
             {
@@ -215,6 +216,7 @@ public class Controller : MonoBehaviour
     }
     public IEnumerator ClearBoad()
     {
+        OnTurnComplete?.Invoke();
         for (int x = 0; x < matrixSize.x; x++)
         {
             for (int y = 0; y < matrixSize.y; y++)

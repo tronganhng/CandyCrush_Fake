@@ -681,7 +681,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
+    m_Left: 30
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
@@ -817,7 +817,7 @@ RectTransform:
   m_GameObject: {fileID: 501671635}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1, y: 1.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 681378317}
@@ -875,7 +875,7 @@ Animator:
   m_GameObject: {fileID: 501671635}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a2354d599e1aa43b2a446d8676509ad5, type: 2}
+  m_Controller: {fileID: 9100000, guid: 26ebc53217cd547fd8e3a2b25505f1e1, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1104,7 +1104,7 @@ RectTransform:
   m_GameObject: {fileID: 587046902}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1, y: 1.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1490703438}
@@ -1162,7 +1162,7 @@ Animator:
   m_GameObject: {fileID: 587046902}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a2354d599e1aa43b2a446d8676509ad5, type: 2}
+  m_Controller: {fileID: 9100000, guid: 26ebc53217cd547fd8e3a2b25505f1e1, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2005,6 +2005,7 @@ GameObject:
   - component: {fileID: 1765049795}
   - component: {fileID: 1765049797}
   - component: {fileID: 1765049798}
+  - component: {fileID: 1765049800}
   - component: {fileID: 1765049799}
   m_Layer: 0
   m_Name: Controller
@@ -2091,9 +2092,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e01e5d0e4ac94f559bdd501dd7a5dd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetBoard: {fileID: 304519427}
-  cardPrefab: {fileID: 8180524926391566668, guid: 1084de77367ae4ee3a89167470ef4a62, type: 3}
-  starBar: {fileID: 1906321249}
+  uIManager: {fileID: 1765049800}
+  turnLeft: 16
   targets:
   - color: 6
     hitType: 4
@@ -2104,6 +2104,22 @@ MonoBehaviour:
   - color: 0
     hitType: 0
     amount: 8
+--- !u!114 &1765049800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1765049794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6aa2b4a97e54d4b5da812c0e69faa3de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetBoard: {fileID: 304519427}
+  cardPrefab: {fileID: 8180524926391566668, guid: 1084de77367ae4ee3a89167470ef4a62, type: 3}
+  starBar: {fileID: 1906321249}
+  cards: []
 --- !u!1 &1801585453
 GameObject:
   m_ObjectHideFlags: 0
@@ -2649,7 +2665,7 @@ RectTransform:
   m_GameObject: {fileID: 2062490002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1, y: 1.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 441926113}
@@ -2707,7 +2723,7 @@ Animator:
   m_GameObject: {fileID: 2062490002}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a2354d599e1aa43b2a446d8676509ad5, type: 2}
+  m_Controller: {fileID: 9100000, guid: 26ebc53217cd547fd8e3a2b25505f1e1, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

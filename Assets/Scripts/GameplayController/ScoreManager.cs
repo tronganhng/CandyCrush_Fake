@@ -1,26 +1,21 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using DG.Tweening;
 
 [Serializable]
 public struct TargetStat
 {
     public CandyColor color;
     public HitType hitType;
-    public int amount;
+    public int amount; // số kẹo phải ăn
 }
 
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance;
 
-    [SerializeField] private GameObject targetBoard;
-    [SerializeField] private GameObject cardPrefab;
-    [SerializeField] private StarBar starBar;
+    [SerializeField] private UIManager uIManager;
+    [SerializeField] private int turnLeft;
     [SerializeField] private TargetStat[] targets;
-    private List<UITargetCard> cards = new List<UITargetCard>();
     private int totalCandyToHit = 0;
     private int candyLeftToHit = 0;
     void Awake()
@@ -30,42 +25,34 @@ public class ScoreManager : MonoBehaviour
     }
     private void Start()
     {
-        Controller.Instance.OnCandyMatched += UpdateFillBar;
-        foreach (TargetStat item in targets)
+        Controller.Instance.OnCandyMatched += UpdateTarget;
+        foreach (TargetStat stat in targets)
         {
-            GameObject card = Instantiate(cardPrefab, targetBoard.transform);
-            card.GetComponent<UITargetCard>().SetInfo(item);
-            cards.Add(card.GetComponent<UITargetCard>());
-            totalCandyToHit += item.amount;
+            uIManager.CreateTargetCard(stat);
+            totalCandyToHit += stat.amount;
         }
         candyLeftToHit = totalCandyToHit;
-        UpdateFillBar();
+        UpdateTarget();
     }
 
     private void OnDisable()
     {
-        Controller.Instance.OnCandyMatched -= UpdateFillBar;
+        Controller.Instance.OnCandyMatched -= UpdateTarget;
     }
 
     public void OnCandyHitted(CandyColor color, HitType hitType)
     {
-        for (int i = 0; i < cards.Count; i++)
-        {
-            if (cards[i].stat.color == color && cards[i].stat.hitType == hitType)
-            {
-                cards[i].SetAmount(1);
-            }
-        }
+        uIManager.DecreaseTargetAmount(color, hitType);
     }
 
-    private void UpdateFillBar()
+    private void UpdateTarget()
     {
         candyLeftToHit = 0;
-        foreach (UITargetCard item in cards)
+        foreach (UITargetCard item in uIManager.cards)
         {
             candyLeftToHit += item.stat.amount;
         }
         float targetFill = (float)(totalCandyToHit - candyLeftToHit) / totalCandyToHit;
-        starBar.fillBar.DOFillAmount(targetFill, 0.6f).SetEase(Ease.OutQuad).OnComplete(() => starBar.CheckFill());
+        uIManager.SetStarFillBar(targetFill);
     }
 }

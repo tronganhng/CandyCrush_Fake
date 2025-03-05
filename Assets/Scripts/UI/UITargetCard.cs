@@ -10,15 +10,6 @@ public class UITargetCard: MonoBehaviour
     [SerializeField] private Text amountTxt;
     [SerializeField] private CandyOS[] dataOs;
 
-    private void OnEnable()
-    {
-        Controller.Instance.OnCandyMatched += UpdateText;
-    }
-    private void OnDisable()
-    {
-        Controller.Instance.OnCandyMatched -= UpdateText;
-    }
-
     public void SetInfo(TargetStat sample)
     {
         stat = sample;
@@ -27,7 +18,7 @@ public class UITargetCard: MonoBehaviour
         amountTxt.text = sample.amount.ToString();
     }
 
-    public void SetAmount(int subtrahend)
+    public void DecreaseAmount(int subtrahend)
     {
         stat.amount -= subtrahend;
         if(stat.amount < 0) stat.amount = 0;
