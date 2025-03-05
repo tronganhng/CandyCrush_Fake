@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
 
@@ -7,6 +9,7 @@ public class InputController : MonoBehaviour
     [SerializeField] private GameObject bg;
     [SerializeField] private Controller controller;
     public Candy currentBomb;
+    public event Action OnTurnComplete;
     private void Update()
     {
         if (controller.candyMoving) return;
@@ -21,7 +24,13 @@ public class InputController : MonoBehaviour
             Vector2Int pos = hit.collider.GetComponent<Candy>().matrixPos;
             if (controller.candyGrid[pos.x, pos.y].hitType != HitType.ColorBomb)
             {
-                controller.ScoreBy(controller.BFS(controller.candyGrid, pos.x, pos.y), controller.matchCnt);
+                List<(int, int)> cluster = controller.BFS(controller.candyGrid, pos.x, pos.y);
+                controller.ScoreBy(cluster, Controller.MATCH_CNT);
+                if(cluster.Count >= Controller.MATCH_CNT) 
+                {
+                    OnTurnComplete?.Invoke();
+                    StartCoroutine(controller.DropCandies());
+                }
             }
             else
             {
@@ -45,6 +54,7 @@ public class InputController : MonoBehaviour
                 if (controller.candyGrid[pos.x, pos.y].hitType == HitType.ColorBomb)
                 {
                     StartCoroutine(controller.ClearBoad());
+                    OnTurnComplete?.Invoke();
                 }
                 else
                 {
@@ -52,6 +62,7 @@ public class InputController : MonoBehaviour
                     currentBomb.explodeController = controller.candyGrid[pos.x, pos.y].explodeController;
                     controller.ColorBomb(currentBomb.matrixPos.x, currentBomb.matrixPos.y, targetColor);
                     StartCoroutine(controller.DropCandies());
+                    OnTurnComplete?.Invoke();
                 }
             }
             currentBomb = null;

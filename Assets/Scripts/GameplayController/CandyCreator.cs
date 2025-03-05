@@ -148,7 +148,7 @@ public class CandyCreator : MonoBehaviour
                 if (matrix[x, y].color == CandyColor.RainBow) return true;
                 cluster = Controller.Instance.BFS(matrix, x, y);
                 if (cluster == null) continue;
-                if (cluster.Count >= Controller.Instance.matchCnt)
+                if (cluster.Count >= Controller.MATCH_CNT)
                 {
                     return true;
                 }

@@ -14,6 +14,7 @@ public class ScoreManager : MonoBehaviour
     public static ScoreManager Instance;
 
     [SerializeField] private UIManager uIManager;
+    [SerializeField] private InputController inputController;
     [SerializeField] private int turnLeft;
     [SerializeField] private TargetStat[] targets;
     private int totalCandyToHit = 0;
@@ -26,18 +27,23 @@ public class ScoreManager : MonoBehaviour
     private void Start()
     {
         Controller.Instance.OnCandyMatched += UpdateTarget;
+        inputController.OnTurnComplete += DecreaseTurn;
+        Controller.Instance.OnWaveEnd += CheckWinLevel;
         foreach (TargetStat stat in targets)
         {
             uIManager.CreateTargetCard(stat);
             totalCandyToHit += stat.amount;
         }
         candyLeftToHit = totalCandyToHit;
+        uIManager.SetTurnText(turnLeft);
         UpdateTarget();
     }
 
     private void OnDisable()
     {
         Controller.Instance.OnCandyMatched -= UpdateTarget;
+        inputController.OnTurnComplete -= DecreaseTurn;
+        Controller.Instance.OnWaveEnd -= CheckWinLevel;
     }
 
     public void OnCandyHitted(CandyColor color, HitType hitType)
@@ -54,5 +60,22 @@ public class ScoreManager : MonoBehaviour
         }
         float targetFill = (float)(totalCandyToHit - candyLeftToHit) / totalCandyToHit;
         uIManager.SetStarFillBar(targetFill);
+    }
+
+    private void DecreaseTurn()
+    {
+        turnLeft--;
+        if (turnLeft < 0) turnLeft = 0;
+        uIManager.SetTurnText(turnLeft);
+    }
+
+    private void CheckWinLevel()
+    {
+        if(candyLeftToHit == 0) 
+        {
+            Debug.Log("Win this level");
+            return;
+        }
+        if(turnLeft <= 0 && candyLeftToHit > 0) Debug.Log("You Lose :()");
     }
 }

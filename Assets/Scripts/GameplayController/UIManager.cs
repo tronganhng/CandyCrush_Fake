@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject targetBoard;
     [SerializeField] private GameObject cardPrefab;
     [SerializeField] private StarBar starBar;
+    [SerializeField] private Text turnTxt;
     [HideInInspector] public List<UITargetCard> cards = new List<UITargetCard>();
 
     private void Start()
@@ -47,5 +49,10 @@ public class UIManager : MonoBehaviour
         GameObject card = Instantiate(cardPrefab, targetBoard.transform);
         card.GetComponent<UITargetCard>().SetInfo(sample);
         cards.Add(card.GetComponent<UITargetCard>());
+    }
+
+    public void SetTurnText(int turnLeft)
+    {
+        turnTxt.text = turnLeft.ToString();
     }
 }
