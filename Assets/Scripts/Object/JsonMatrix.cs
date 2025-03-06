@@ -3,22 +3,26 @@ using UnityEngine;
 
 public class JsonMatrix
 {
-    public int[,] matrix;
+    public List<List<int[]>> pairMatrix; // ma trận chứa các cặp (color, hitType)
 
-    public int[,] ConvertArr(int width, int height)
+    public void InvertMatrix() // đảo ngược trục y ma trận
     {
-        if (matrix == null) Debug.Log("null");
-
-        int[,] result = new int[width, height];
-
-        for (int y = 0; y < height; y++)
+        List<List<int[]>> clone = new List<List<int[]>>();
+        for (int y = pairMatrix.Count - 1; y >= 0; y--)
         {
-
-            for (int x = 0; x < width; x++)
-            {
-                result[x, y] = matrix[height - y - 1,x];
-            }
+            clone.Add(pairMatrix[y]);
         }
-        return result;
+        pairMatrix = clone;
+    }
+}
+
+public class Pair
+{
+    public int color;
+    public int hitType;
+    public Pair(int color, int hitType)
+    {
+        this.color = color;
+        this.hitType = hitType;
     }
 }

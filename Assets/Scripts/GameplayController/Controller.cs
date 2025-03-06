@@ -282,7 +282,7 @@ public class Controller : MonoBehaviour
                     {
                         spawnY[x] = matrixSize.y;
                     }
-                    CandyCreator.Instance.CreateRandomCandy(new Vector2Int(x, spawnY[x]));
+                    CandyCreator.Instance.CreateCandyByJson(new Vector2Int(x, spawnY[x]));
                 }
             }
         }

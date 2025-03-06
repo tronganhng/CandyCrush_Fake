@@ -10,6 +10,8 @@ public class CandyCreator : MonoBehaviour
     public Vector2Int matrixSize;
     public Candy[,] candyGrid;
     private string jsonPath = "/Users/ngocanh/Documents/Unity Project/Work project1/CandyMatrix.json";
+    private JsonMatrix jsonMatrix;
+    private int[] currentY;
     void Awake()
     {
         if (Instance != null) Destroy(gameObject);
@@ -20,19 +22,24 @@ public class CandyCreator : MonoBehaviour
     {
         candyGrid = new Candy[matrixSize.x, matrixSize.y * 2];
         LoadMatrixByJson();
+        currentY = new int[jsonMatrix.pairMatrix.Count];
+        for(int x = 0; x < matrixSize.x; x++)
+        {
+            currentY[x] = matrixSize.y;
+        }
     }
 
     private void LoadMatrixByJson()
     {
         string data = File.ReadAllText(jsonPath);
-        JsonMatrix jsonMatrix = JsonConvert.DeserializeObject<JsonMatrix>(data);
-        int [,] numberMatrix = jsonMatrix.ConvertArr(matrixSize.x, matrixSize.y);
+        jsonMatrix = JsonConvert.DeserializeObject<JsonMatrix>(data);
+        jsonMatrix.InvertMatrix();
         for (int i = 0; i < matrixSize.x; i++)
         {
             for (int j = 0; j < matrixSize.y; j++)
             {
                 GameObject candy = CandyPool.Instance.GetCandy();
-                candy.GetComponent<Candy>().SetInfo(candyOs[(int)HitType.Normal].candies[numberMatrix[i,j]]);
+                candy.GetComponent<Candy>().SetInfo(candyOs[jsonMatrix.pairMatrix[j][i][1]].candies[jsonMatrix.pairMatrix[j][i][0]]);
                 candy.transform.localPosition = new Vector2(i, j);
                 candyGrid[i, j] = candy.GetComponent<Candy>();
                 candyGrid[i, j].matrixPos = new Vector2Int(i, j);
@@ -40,7 +47,7 @@ public class CandyCreator : MonoBehaviour
         }
     }
 
-    void SpawnCandyRandom()
+    void SpawnCandiesRandom()
     {
         for (int i = 0; i < matrixSize.x; i++)
         {
@@ -55,27 +62,42 @@ public class CandyCreator : MonoBehaviour
         }
     }
 
-    public void CreateRandomCandy(Vector2Int position)
+    public void CreateCandyByJson(Vector2Int spawnPos)
+    {
+        GameObject candyObj = CandyPool.Instance.GetCandy();
+        if(currentY[spawnPos.x] < jsonMatrix.pairMatrix.Count)
+        {
+            candyObj.GetComponent<Candy>().SetInfo(candyOs[jsonMatrix.pairMatrix[currentY[spawnPos.x]][spawnPos.x][1]].candies[jsonMatrix.pairMatrix[currentY[spawnPos.x]][spawnPos.x][0]]);
+            currentY[spawnPos.x]++;
+        }
+        else
+        {
+            CreateRandomCandy(candyObj);
+        }
+        candyObj.transform.localPosition = (Vector2)spawnPos;
+        candyGrid[spawnPos.x, spawnPos.y] = candyObj.GetComponent<Candy>();
+        candyGrid[spawnPos.x, spawnPos.y].matrixPos = new Vector2Int(spawnPos.x, spawnPos.y);
+    }
+    private void CreateRandomCandy(GameObject candyObj)
     {
         int random = Random.Range(0, 100);
-        GameObject candyObj = CandyPool.Instance.GetCandy();
         CandyDataOS data;
         if (random > 95)
         {
             data = candyOs[(int)HitType.StripeVer].candies[Random.Range(0, 6)];
             candyObj.GetComponent<Candy>().SetInfo(data);
         }
-        else if (random > 90 && random <= 95)
+        else if (random > 92 && random <= 95)
         {
             data = candyOs[(int)HitType.StripeHor].candies[Random.Range(0, 6)];
             candyObj.GetComponent<Candy>().SetInfo(data);
         }
-        else if (random >= 86 && random <= 90)
+        else if (random >= 90 && random <= 92)
         {
             data = candyOs[(int)HitType.Area].candies[Random.Range(0, 6)];
             candyObj.GetComponent<Candy>().SetInfo(data);
         }
-        else if (random >= 81 && random < 86)
+        else if (random >= 88 && random < 90)
         {
             data = candyOs[(int)HitType.ColorBomb].candies[0];
             candyObj.GetComponent<Candy>().SetInfo(data);
@@ -85,9 +107,6 @@ public class CandyCreator : MonoBehaviour
             data = candyOs[(int)HitType.Normal].candies[Random.Range(0, 6)];
             candyObj.GetComponent<Candy>().SetInfo(data);
         }
-        candyObj.transform.localPosition = (Vector2)position;
-        candyGrid[position.x, position.y] = candyObj.GetComponent<Candy>();
-        candyGrid[position.x, position.y].matrixPos = new Vector2Int(position.x, position.y);
     }
     public void CreateCandyBy(Vector2Int position, CandyColor color, HitType hitType)
     {
