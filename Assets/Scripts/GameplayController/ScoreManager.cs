@@ -16,9 +16,11 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private UIManager uIManager;
     [SerializeField] private InputController inputController;
     [SerializeField] private int turnLeft;
+    [SerializeField] private int targetPoint;
     [SerializeField] private TargetStat[] targets;
     private int totalCandyToHit = 0;
     private int candyLeftToHit = 0;
+    private int currentPoint = 0;
     void Awake()
     {
         if (Instance != null) Destroy(this);
@@ -37,6 +39,7 @@ public class ScoreManager : MonoBehaviour
         candyLeftToHit = totalCandyToHit;
         uIManager.SetTurnText(turnLeft);
         UpdateTarget();
+        uIManager.SetStarFillBar(0);
     }
 
     private void OnDisable()
@@ -51,6 +54,12 @@ public class ScoreManager : MonoBehaviour
         uIManager.DecreaseTargetAmount(color, hitType);
     }
 
+    public void IncreasePoint(int amount)
+    {
+        currentPoint += amount;
+        uIManager.SetStarFillBar((float)currentPoint / targetPoint);
+    }
+
     private void UpdateTarget()
     {
         candyLeftToHit = 0;
@@ -59,7 +68,6 @@ public class ScoreManager : MonoBehaviour
             candyLeftToHit += item.stat.amount;
         }
         float targetFill = (float)(totalCandyToHit - candyLeftToHit) / totalCandyToHit;
-        uIManager.SetStarFillBar(targetFill);
     }
 
     private void DecreaseTurn()
@@ -71,11 +79,26 @@ public class ScoreManager : MonoBehaviour
 
     private void CheckWinLevel()
     {
-        if(candyLeftToHit == 0) 
+        if (turnLeft > 0)
         {
-            StartCoroutine(uIManager.WinLevelShow());
-            return;
+            if (candyLeftToHit == 0 && uIManager.starBar.GetActiveStar() == 3)
+            {
+                inputController.endLevel = true;
+                StartCoroutine(uIManager.WinLevelShow());
+            }
         }
-        if(turnLeft <= 0 && candyLeftToHit > 0) uIManager.loseBoard.SetActive(true);
+        else
+        {
+            inputController.endLevel = true;
+            if (candyLeftToHit > 0)
+            {
+                uIManager.loseBoard.SetActive(true);
+            }
+            else
+            {
+                if (uIManager.starBar.GetActiveStar() == 0) uIManager.loseBoard.SetActive(true);
+                else StartCoroutine(uIManager.WinLevelShow());
+            }
+        }
     }
 }

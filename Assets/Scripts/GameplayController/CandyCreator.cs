@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.IO;
+using Newtonsoft.Json;
 using UnityEngine;
 public class CandyCreator : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class CandyCreator : MonoBehaviour
     [SerializeField] private CandyOS[] candyOs;
     public Vector2Int matrixSize;
     public Candy[,] candyGrid;
+    private string jsonPath = "/Users/ngocanh/Documents/Unity Project/Work project1/CandyMatrix.json";
     void Awake()
     {
         if (Instance != null) Destroy(gameObject);
@@ -17,10 +19,28 @@ public class CandyCreator : MonoBehaviour
     void Start()
     {
         candyGrid = new Candy[matrixSize.x, matrixSize.y * 2];
-        SpawnCandy();
+        LoadMatrixByJson();
     }
 
-    void SpawnCandy()
+    private void LoadMatrixByJson()
+    {
+        string data = File.ReadAllText(jsonPath);
+        JsonMatrix jsonMatrix = JsonConvert.DeserializeObject<JsonMatrix>(data);
+        int [,] numberMatrix = jsonMatrix.ConvertArr(matrixSize.x, matrixSize.y);
+        for (int i = 0; i < matrixSize.x; i++)
+        {
+            for (int j = 0; j < matrixSize.y; j++)
+            {
+                GameObject candy = CandyPool.Instance.GetCandy();
+                candy.GetComponent<Candy>().SetInfo(candyOs[(int)HitType.Normal].candies[numberMatrix[i,j]]);
+                candy.transform.localPosition = new Vector2(i, j);
+                candyGrid[i, j] = candy.GetComponent<Candy>();
+                candyGrid[i, j].matrixPos = new Vector2Int(i, j);
+            }
+        }
+    }
+
+    void SpawnCandyRandom()
     {
         for (int i = 0; i < matrixSize.x; i++)
         {
@@ -42,17 +62,17 @@ public class CandyCreator : MonoBehaviour
         CandyDataOS data;
         if (random > 95)
         {
-            data = candyOs[(int)HitType.StripeVer].candies[Random.Range(0, 5)];
+            data = candyOs[(int)HitType.StripeVer].candies[Random.Range(0, 6)];
             candyObj.GetComponent<Candy>().SetInfo(data);
         }
         else if (random > 90 && random <= 95)
         {
-            data = candyOs[(int)HitType.StripeHor].candies[Random.Range(0, 5)];
+            data = candyOs[(int)HitType.StripeHor].candies[Random.Range(0, 6)];
             candyObj.GetComponent<Candy>().SetInfo(data);
         }
         else if (random >= 86 && random <= 90)
         {
-            data = candyOs[(int)HitType.Area].candies[Random.Range(0, 5)];
+            data = candyOs[(int)HitType.Area].candies[Random.Range(0, 6)];
             candyObj.GetComponent<Candy>().SetInfo(data);
         }
         else if (random >= 81 && random < 86)
@@ -62,7 +82,7 @@ public class CandyCreator : MonoBehaviour
         }
         else
         {
-            data = candyOs[(int)HitType.Normal].candies[Random.Range(0, 5)];
+            data = candyOs[(int)HitType.Normal].candies[Random.Range(0, 6)];
             candyObj.GetComponent<Candy>().SetInfo(data);
         }
         candyObj.transform.localPosition = (Vector2)position;

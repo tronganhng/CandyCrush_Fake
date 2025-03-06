@@ -266,12 +266,14 @@ public class Controller : MonoBehaviour
     private void SpawnCandies()
     {
         Dictionary<int, int> spawnY = new Dictionary<int, int>();
+        int nullCnt = 0;
         for (int x = 0; x < matrixSize.x; x++)
         {
             for (int y = 0; y < matrixSize.y; y++)
             {
                 if (candyGrid[x, y] == null)
                 {
+                    nullCnt++;
                     if (spawnY.ContainsKey(x))
                     {
                         spawnY[x]++;
@@ -284,6 +286,7 @@ public class Controller : MonoBehaviour
                 }
             }
         }
+        ScoreManager.Instance.IncreasePoint(nullCnt);
     }
     private void MakeCombo()
     {

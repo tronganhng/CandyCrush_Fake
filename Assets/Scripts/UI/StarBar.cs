@@ -13,11 +13,11 @@ public class StarBar : MonoBehaviour
         {
             if (fillBar.fillAmount >= item.anchoredPosition.x / bar.rect.width)
             {
-                item.transform.GetChild(0).gameObject.SetActive(true);
+                item.GetChild(0).gameObject.SetActive(true);
             }
             else
             {
-                item.transform.GetChild(0).gameObject.SetActive(false);
+                item.GetChild(0).gameObject.SetActive(false);
             }
         }
     }
@@ -27,7 +27,7 @@ public class StarBar : MonoBehaviour
         int result = 0;
         foreach (RectTransform item in stars)
         {
-            if (item.gameObject.activeSelf) result++;
+            if (item.GetChild(0).gameObject.activeSelf) result++;
         }
         return result;
     }

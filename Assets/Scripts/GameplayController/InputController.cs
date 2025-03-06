@@ -8,11 +8,12 @@ public class InputController : MonoBehaviour
     [SerializeField] private LayerMask candyLayer;
     [SerializeField] private GameObject bg;
     [SerializeField] private Controller controller;
-    public Candy currentBomb;
+    [HideInInspector] public Candy currentBomb;
+    [HideInInspector] public bool endLevel = false;
     public event Action OnTurnComplete;
     private void Update()
     {
-        if (controller.candyMoving) return;
+        if (controller.candyMoving || endLevel) return;
         if (!Input.GetMouseButtonDown(0)) return;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

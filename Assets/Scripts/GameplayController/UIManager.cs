@@ -7,10 +7,10 @@ using System.Collections;
 public class UIManager : MonoBehaviour
 {
     public GameObject winBoard, loseBoard;
+    public StarBar starBar;
     [SerializeField] private GameObject[] stars = new GameObject[3];
     [SerializeField] private GameObject targetBoard;
     [SerializeField] private GameObject cardPrefab;
-    [SerializeField] private StarBar starBar;
     [SerializeField] private Text turnTxt;
     [HideInInspector] public List<UITargetCard> cards = new List<UITargetCard>();
 
@@ -61,8 +61,9 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator WinLevelShow()
     {
+        yield return new WaitForSeconds(.7f);
         winBoard.SetActive(true);
-        yield return new WaitForSeconds(.3f);
+        yield return new WaitForSeconds(.5f);
         int totalStars = starBar.GetActiveStar();
         for (int i = 0; i < totalStars; i++)
         {
