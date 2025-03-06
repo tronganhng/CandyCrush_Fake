@@ -2840,7 +2840,7 @@ MonoBehaviour:
     hitType: 0
     amount: 12
   - color: 0
-    hitType: 2
+    hitType: 0
     amount: 2
 --- !u!114 &1765049800
 MonoBehaviour:
@@ -2854,6 +2854,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aa2b4a97e54d4b5da812c0e69faa3de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  winBoard: {fileID: 49610111}
+  loseBoard: {fileID: 853230267}
+  stars:
+  - {fileID: 144910754}
+  - {fileID: 1845918933}
+  - {fileID: 463999235}
   targetBoard: {fileID: 304519427}
   cardPrefab: {fileID: 8180524926391566668, guid: 1084de77367ae4ee3a89167470ef4a62, type: 3}
   starBar: {fileID: 1906321249}

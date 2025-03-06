@@ -73,9 +73,9 @@ public class ScoreManager : MonoBehaviour
     {
         if(candyLeftToHit == 0) 
         {
-            Debug.Log("Win this level");
+            StartCoroutine(uIManager.WinLevelShow());
             return;
         }
-        if(turnLeft <= 0 && candyLeftToHit > 0) Debug.Log("You Lose :()");
+        if(turnLeft <= 0 && candyLeftToHit > 0) uIManager.loseBoard.SetActive(true);
     }
 }

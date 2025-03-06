@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StarBar: MonoBehaviour
+public class StarBar : MonoBehaviour
 {
     public Image fillBar;
     [SerializeField] private RectTransform bar;
@@ -11,7 +11,7 @@ public class StarBar: MonoBehaviour
     {
         foreach (RectTransform item in stars)
         {
-            if(fillBar.fillAmount >= item.anchoredPosition.x/bar.rect.width)
+            if (fillBar.fillAmount >= item.anchoredPosition.x / bar.rect.width)
             {
                 item.transform.GetChild(0).gameObject.SetActive(true);
             }
@@ -20,5 +20,15 @@ public class StarBar: MonoBehaviour
                 item.transform.GetChild(0).gameObject.SetActive(false);
             }
         }
+    }
+
+    public int GetActiveStar()
+    {
+        int result = 0;
+        foreach (RectTransform item in stars)
+        {
+            if (item.gameObject.activeSelf) result++;
+        }
+        return result;
     }
 }

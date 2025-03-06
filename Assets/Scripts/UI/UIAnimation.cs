@@ -6,11 +6,16 @@ public class UIAnimation : MonoBehaviour
     [SerializeField] private UIAnim onEnable;
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private RectTransform rectTransform;
+    Vector3 startPos;
     private enum UIAnim
     {
         FadeIn,
         FadeOut,
         PopIn
+    }
+    private void Start()
+    {
+        startPos = rectTransform.transform.localPosition;
     }
     private void OnEnable()
     {
@@ -27,6 +32,12 @@ public class UIAnimation : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        rectTransform.localPosition = startPos;
+        DOTween.Kill(rectTransform);
+    }
+
     private void FadeIn()
     {
         canvasGroup.alpha = 0f;
@@ -39,8 +50,8 @@ public class UIAnimation : MonoBehaviour
     private void PopIn()
     {
         rectTransform.transform.localScale = Vector3.zero;
-        rectTransform.DOScale(1f, 0.5f).SetEase(Ease.OutBack);
-        rectTransform.DOMoveY(0.2f, 1f)
+        rectTransform.DOScale(1, 1).SetEase(Ease.OutBack);
+        rectTransform.DOAnchorPosY(15f, 1f)
         .SetLoops(-1, LoopType.Yoyo)
         .SetEase(Ease.InOutSine);
 

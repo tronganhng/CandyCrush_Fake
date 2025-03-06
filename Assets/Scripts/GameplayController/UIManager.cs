@@ -2,9 +2,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using System.Collections;
 
 public class UIManager : MonoBehaviour
 {
+    public GameObject winBoard, loseBoard;
+    [SerializeField] private GameObject[] stars = new GameObject[3];
     [SerializeField] private GameObject targetBoard;
     [SerializeField] private GameObject cardPrefab;
     [SerializeField] private StarBar starBar;
@@ -54,5 +57,17 @@ public class UIManager : MonoBehaviour
     public void SetTurnText(int turnLeft)
     {
         turnTxt.text = turnLeft.ToString();
+    }
+
+    public IEnumerator WinLevelShow()
+    {
+        winBoard.SetActive(true);
+        yield return new WaitForSeconds(.3f);
+        int totalStars = starBar.GetActiveStar();
+        for (int i = 0; i < totalStars; i++)
+        {
+            yield return new WaitForSeconds(.3f);
+            stars[i].SetActive(true);
+        }
     }
 }
