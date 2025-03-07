@@ -17,3 +17,27 @@ MonoBehaviour:
     <color>k__BackingField: 6
     <hitType>k__BackingField: 4
     <explodeController>k__BackingField: {fileID: 9100000, guid: 75ccdf4182b854697abde5100d375f94, type: 2}
+  - <sprite>k__BackingField: {fileID: 21300000, guid: 94dcd4e445fa3304cac0df9fb81587a3, type: 3}
+    <color>k__BackingField: 6
+    <hitType>k__BackingField: 4
+    <explodeController>k__BackingField: {fileID: 9100000, guid: 75ccdf4182b854697abde5100d375f94, type: 2}
+  - <sprite>k__BackingField: {fileID: 21300000, guid: 94dcd4e445fa3304cac0df9fb81587a3, type: 3}
+    <color>k__BackingField: 6
+    <hitType>k__BackingField: 4
+    <explodeController>k__BackingField: {fileID: 9100000, guid: 75ccdf4182b854697abde5100d375f94, type: 2}
+  - <sprite>k__BackingField: {fileID: 21300000, guid: 94dcd4e445fa3304cac0df9fb81587a3, type: 3}
+    <color>k__BackingField: 6
+    <hitType>k__BackingField: 4
+    <explodeController>k__BackingField: {fileID: 9100000, guid: 75ccdf4182b854697abde5100d375f94, type: 2}
+  - <sprite>k__BackingField: {fileID: 21300000, guid: 94dcd4e445fa3304cac0df9fb81587a3, type: 3}
+    <color>k__BackingField: 6
+    <hitType>k__BackingField: 4
+    <explodeController>k__BackingField: {fileID: 9100000, guid: 75ccdf4182b854697abde5100d375f94, type: 2}
+  - <sprite>k__BackingField: {fileID: 21300000, guid: 94dcd4e445fa3304cac0df9fb81587a3, type: 3}
+    <color>k__BackingField: 6
+    <hitType>k__BackingField: 4
+    <explodeController>k__BackingField: {fileID: 9100000, guid: 75ccdf4182b854697abde5100d375f94, type: 2}
+  - <sprite>k__BackingField: {fileID: 21300000, guid: 94dcd4e445fa3304cac0df9fb81587a3, type: 3}
+    <color>k__BackingField: 6
+    <hitType>k__BackingField: 4
+    <explodeController>k__BackingField: {fileID: 9100000, guid: 75ccdf4182b854697abde5100d375f94, type: 2}

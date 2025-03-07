@@ -1,19 +1,10 @@
-using System;
 using UnityEngine;
-
-[Serializable]
-public struct TargetStat
-{
-    public CandyColor color;
-    public HitType hitType;
-    public int amount; // số kẹo phải ăn
-}
 
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance;
 
-    [SerializeField] private UIManager uIManager;
+    [SerializeField] private GameplayUIManager uIManager;
     [SerializeField] private InputController inputController;
     [SerializeField] private int turnLeft;
     [SerializeField] private int targetPoint;

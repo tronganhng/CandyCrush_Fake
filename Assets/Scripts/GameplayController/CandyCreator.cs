@@ -11,7 +11,7 @@ public class CandyCreator : MonoBehaviour
     public Candy[,] candyGrid;
     private string jsonPath = "/Users/ngocanh/Documents/Unity Project/Work project1/CandyMatrix.json";
     private JsonMatrix jsonMatrix;
-    private int[] currentY;
+    private int[] currentY; // kiểm tra xem đã dùng hết data của json hay chưa
     void Awake()
     {
         if (Instance != null) Destroy(gameObject);

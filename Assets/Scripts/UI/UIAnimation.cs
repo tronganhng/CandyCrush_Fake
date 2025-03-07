@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using System.Collections;
 
 public class UIAnimation : MonoBehaviour
 {
@@ -10,12 +11,12 @@ public class UIAnimation : MonoBehaviour
     private enum UIAnim
     {
         FadeIn,
-        FadeOut,
+        DropDown,
         PopIn
     }
-    private void Start()
+    private void Awake()
     {
-        startPos = rectTransform.transform.localPosition;
+        startPos = rectTransform.localPosition;
     }
     private void OnEnable()
     {
@@ -23,6 +24,9 @@ public class UIAnimation : MonoBehaviour
         {
             case UIAnim.FadeIn:
                 FadeIn();
+                break;
+            case UIAnim.DropDown:
+                DropDown();
                 break;
             case UIAnim.PopIn:
                 PopIn();
@@ -40,20 +44,40 @@ public class UIAnimation : MonoBehaviour
 
     private void FadeIn()
     {
+        if (canvasGroup == null)
+        {
+            Debug.Log("You need canvasGroup!!!");
+            return;
+        }
         canvasGroup.alpha = 0f;
-        rectTransform.transform.localPosition = rectTransform.transform.localPosition + new Vector3(0, 500, 0);
-        Vector3 targetPos = rectTransform.transform.localPosition - new Vector3(0, 500, 0);
+        rectTransform.localPosition = rectTransform.localPosition + new Vector3(0, 500, 0);
+        Vector3 targetPos = rectTransform.localPosition - new Vector3(0, 500, 0);
         rectTransform.DOAnchorPos(targetPos, 0.7f, false).SetEase(Ease.OutBack);
         canvasGroup.DOFade(1, .35f);
     }
 
     private void PopIn()
     {
-        rectTransform.transform.localScale = Vector3.zero;
+        rectTransform.localScale = Vector3.zero;
         rectTransform.DOScale(1, 1).SetEase(Ease.OutBack);
         rectTransform.DOAnchorPosY(15f, 1f)
         .SetLoops(-1, LoopType.Yoyo)
         .SetEase(Ease.InOutSine);
 
+    }
+
+    private void DropDown()
+    {
+        rectTransform.localPosition = rectTransform.localPosition + new Vector3(0, 500, 0);
+        Vector3 targetPos = rectTransform.localPosition - new Vector3(0, 500, 0);
+        rectTransform.DOAnchorPos(targetPos, 0.7f, false).SetEase(Ease.OutBack).OnComplete(() => rectTransform.DOAnchorPosY(15f, 1f)
+        .SetLoops(-1, LoopType.Yoyo)
+        .SetEase(Ease.InOutSine));
+    }
+
+    public void RiseUp()
+    {
+        Vector3 targetPos = rectTransform.localPosition + new Vector3(0, 1000, 0);
+        rectTransform.DOAnchorPos(targetPos, 0.4f, false).SetEase(Ease.InBack).OnComplete(() => transform.parent.gameObject.SetActive(false));
     }
 }

@@ -1,0 +1,23 @@
+{
+    "levelList": [
+      {
+        "levelNumber": 1,
+        "targets": [
+          { "color": "Red", "hitType": "Normal", "amount": 10 },
+          { "color": "Blue", "hitType": "Normal", "amount": 5 }
+        ],
+        "isComplete": true,
+        "starCnt": 3
+      },
+
+      {
+        "levelNumber": 2,
+        "targets": [
+          { "color": "Green", "hitType": "Normal", "amount": 15 }
+        ],
+        "isComplete": false,
+        "starCnt": 0
+      }
+    ]
+  }
+  

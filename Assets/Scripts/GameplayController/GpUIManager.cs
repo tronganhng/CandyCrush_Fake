@@ -4,7 +4,7 @@ using DG.Tweening;
 using UnityEngine.UI;
 using System.Collections;
 
-public class UIManager : MonoBehaviour
+public class GameplayUIManager : MonoBehaviour
 {
     public GameObject winBoard, loseBoard;
     public StarBar starBar;
