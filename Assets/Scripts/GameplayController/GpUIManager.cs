@@ -71,4 +71,5 @@ public class GameplayUIManager : MonoBehaviour
             stars[i].SetActive(true);
         }
     }
+
 }

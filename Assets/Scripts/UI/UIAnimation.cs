@@ -12,7 +12,8 @@ public class UIAnimation : MonoBehaviour
     {
         FadeIn,
         DropDown,
-        PopIn
+        PopIn,
+        Rotate
     }
     private void Awake()
     {
@@ -30,6 +31,9 @@ public class UIAnimation : MonoBehaviour
                 break;
             case UIAnim.PopIn:
                 PopIn();
+                break;
+            case UIAnim.Rotate:
+                Rotate();
                 break;
             default:
                 break;
@@ -79,5 +83,12 @@ public class UIAnimation : MonoBehaviour
     {
         Vector3 targetPos = rectTransform.localPosition + new Vector3(0, 1000, 0);
         rectTransform.DOAnchorPos(targetPos, 0.4f, false).SetEase(Ease.InBack).OnComplete(() => transform.parent.gameObject.SetActive(false));
+    }
+
+    private void Rotate()
+    {
+        rectTransform.DORotate(new Vector3(0, 0, 360), 14f, RotateMode.FastBeyond360)
+                     .SetLoops(-1, LoopType.Restart)
+                     .SetEase(Ease.Linear);
     }
 }

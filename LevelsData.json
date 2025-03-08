@@ -1,4 +1,5 @@
 {
+    "currentLevel": 3,
     "levelList": [
       {
         "levelNumber": 1,
@@ -6,7 +7,7 @@
           { "color": "Red", "hitType": "Normal", "amount": 10 },
           { "color": "Blue", "hitType": "Normal", "amount": 5 }
         ],
-        "isComplete": true,
+        "totalTurn": 10,
         "starCnt": 3
       },
 
@@ -15,7 +16,16 @@
         "targets": [
           { "color": "Green", "hitType": "Normal", "amount": 15 }
         ],
-        "isComplete": false,
+        "totalTurn": 12,
+        "starCnt": 1
+      },
+
+      {
+        "levelNumber": 3,
+        "targets": [
+          { "color": "Yellow", "hitType": "StripeHor", "amount": 2 }
+        ],
+        "totalTurn": 13,
         "starCnt": 0
       }
     ]

@@ -9,11 +9,11 @@ public class InputController : MonoBehaviour
     [SerializeField] private GameObject bg;
     [SerializeField] private Controller controller;
     [HideInInspector] public Candy currentBomb;
-    [HideInInspector] public bool endLevel = false;
+    [HideInInspector] public bool lockRaycast = false;
     public event Action OnTurnComplete;
     private void Update()
     {
-        if (controller.candyMoving || endLevel) return;
+        if (controller.candyMoving || lockRaycast) return;
         if (!Input.GetMouseButtonDown(0)) return;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -79,5 +79,10 @@ public class InputController : MonoBehaviour
         if (pos.x < CandyCreator.Instance.matrixSize.x - 1) controller.candyGrid[pos.x + 1, pos.y].spriteRenderer.sortingOrder = sortOrder;
         if (pos.y > 0) controller.candyGrid[pos.x, pos.y - 1].spriteRenderer.sortingOrder = sortOrder;
         if (pos.y < CandyCreator.Instance.matrixSize.y - 1) controller.candyGrid[pos.x, pos.y + 1].spriteRenderer.sortingOrder = sortOrder;
+    }
+
+    public void SetLockRayCast(bool state)
+    {
+        lockRaycast = state;
     }
 }

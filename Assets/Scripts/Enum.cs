@@ -17,3 +17,9 @@ public enum HitType
     Area,
     ColorBomb
 }
+
+public enum SceneName
+{
+    Main,
+    Gameplay
+}

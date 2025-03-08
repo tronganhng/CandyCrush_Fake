@@ -6,8 +6,8 @@ public class ScoreManager : MonoBehaviour
 
     [SerializeField] private GameplayUIManager uIManager;
     [SerializeField] private InputController inputController;
-    [SerializeField] private int turnLeft;
     [SerializeField] private int targetPoint;
+    [SerializeField] private int turnLeft;
     [SerializeField] private TargetStat[] targets;
     private int totalCandyToHit = 0;
     private int candyLeftToHit = 0;
@@ -22,6 +22,11 @@ public class ScoreManager : MonoBehaviour
         Controller.Instance.OnCandyMatched += UpdateTarget;
         inputController.OnTurnComplete += DecreaseTurn;
         Controller.Instance.OnWaveEnd += CheckWinLevel;
+        if(LevelManager.Instance != null)
+        {
+            targets = LevelManager.Instance.playingLevel.targets;
+            turnLeft = LevelManager.Instance.playingLevel.totalTurn;
+        }
         foreach (TargetStat stat in targets)
         {
             uIManager.CreateTargetCard(stat);
@@ -74,13 +79,13 @@ public class ScoreManager : MonoBehaviour
         {
             if (candyLeftToHit == 0 && uIManager.starBar.GetActiveStar() == 3)
             {
-                inputController.endLevel = true;
+                inputController.SetLockRayCast(true);
                 StartCoroutine(uIManager.WinLevelShow());
             }
         }
         else
         {
-            inputController.endLevel = true;
+            inputController.SetLockRayCast(true);
             if (candyLeftToHit > 0)
             {
                 uIManager.loseBoard.SetActive(true);

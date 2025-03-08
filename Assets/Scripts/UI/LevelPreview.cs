@@ -9,9 +9,16 @@ public class LevelPreview : MonoBehaviour
     [SerializeField] private GameObject cardPrefab;
     [SerializeField] private GameObject[] star;
     [SerializeField] private Text levelTxt;
+    [SerializeField] private Button playButton;
+    private LevelData currentData;
 
+    private void Start()
+    {
+        playButton.onClick.AddListener(EnterLevel);
+    }
     private void OnDisable()
     {
+        currentData = null;
         foreach (Transform child in targetBoard.transform)
         {
             Destroy(child.gameObject);
@@ -24,6 +31,7 @@ public class LevelPreview : MonoBehaviour
 
     public IEnumerator LoadUI(LevelData data)
     {
+        currentData = data;
         levelTxt.text = data.levelNumber.ToString();
         foreach (TargetStat item in data.targets)
         {
@@ -40,5 +48,17 @@ public class LevelPreview : MonoBehaviour
     {
         GameObject card = Instantiate(cardPrefab, targetBoard.transform);
         card.GetComponent<UITargetCard>().SetInfo(sample);
+    }
+
+    private void EnterLevel()
+    {
+        MenuEvent.OnEnterLevel?.Invoke(currentData);
+        StartCoroutine(LoadSceneCoroutine());
+    }
+
+    private IEnumerator LoadSceneCoroutine()
+    {
+        yield return new WaitForSeconds(.7f);
+        SceneLoader.LoadScene(SceneName.Gameplay);
     }
 }

@@ -5,11 +5,12 @@ public class LevelData
 {
     public int levelNumber;
     public TargetStat[] targets;
-    public bool isComplete;
-    public int starCnt; 
+    public int totalTurn;
+    public int starCnt;
 }
 
-public class LevelCollection
+public class LevelDataList
 {
+    public int currentLevel;
     public List<LevelData> levelList;
 }

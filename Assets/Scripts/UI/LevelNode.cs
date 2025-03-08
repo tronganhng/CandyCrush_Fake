@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class LevelNode: MonoBehaviour
 {
-    [SerializeField] private Button button;
+    [SerializeField] public Button button;
     [SerializeField] private Text levelTxt;
     [SerializeField] private GameObject[] stars;
 
