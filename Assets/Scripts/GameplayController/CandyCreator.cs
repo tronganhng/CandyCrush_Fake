@@ -9,13 +9,13 @@ public class CandyCreator : MonoBehaviour
     [SerializeField] private CandyOS[] candyOs;
     public Vector2Int matrixSize;
     public Candy[,] candyGrid;
-    private string jsonPath = "/Users/ngocanh/Documents/Unity Project/Work project1/CandyMatrix.json";
+    private string jsonPath = JsonPath.candyMatrix;
     private JsonMatrix jsonMatrix;
     private int[] currentY; // kiểm tra xem đã dùng hết data của json hay chưa
     void Awake()
     {
         if (Instance != null) Destroy(gameObject);
-        Instance = this;
+        else Instance = this;
     }
 
     void Start()

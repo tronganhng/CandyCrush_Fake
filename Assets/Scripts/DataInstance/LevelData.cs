@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class LevelData
 {
+    public int iD;
     public int levelNumber;
     public TargetStat[] targets;
     public int totalTurn;

@@ -13,7 +13,8 @@ public class UIAnimation : MonoBehaviour
         FadeIn,
         DropDown,
         PopIn,
-        Rotate
+        Rotate,
+        RiseUp
     }
     private void Awake()
     {
@@ -34,6 +35,9 @@ public class UIAnimation : MonoBehaviour
                 break;
             case UIAnim.Rotate:
                 Rotate();
+                break;
+            case UIAnim.RiseUp:
+                RiseUp();
                 break;
             default:
                 break;

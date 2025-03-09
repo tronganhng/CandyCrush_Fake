@@ -16,7 +16,7 @@ public class Controller : MonoBehaviour
     void Awake()
     {
         if (Instance != null) Destroy(this);
-        Instance = this;
+        else Instance = this;
     }
 
     void Start()

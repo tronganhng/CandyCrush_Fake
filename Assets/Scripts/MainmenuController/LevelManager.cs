@@ -8,20 +8,25 @@ public class LevelManager : MonoBehaviour
 
     public LevelDataList levelDataList;
     public LevelData playingLevel;
-    private string jsonPath = "/Users/ngocanh/Documents/Unity Project/Work project1/LevelsData.json";
+    private string jsonPath = JsonPath.levelData;
 
     private void Awake()
     {
-        if (Instance != null) Destroy(gameObject);
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject); // Nếu đã có instance, hủy GameObject mới để tránh trùng lặp
+        }
+        LoadData();
     }
 
     private void Start()
     {
         MenuEvent.OnEnterLevel += SetPlayingLevel;
-        LoadJsonData();
-        MenuEvent.OnLoadLevelNodes?.Invoke(levelDataList);
     }
 
     private void SetPlayingLevel(LevelData levelData)
@@ -29,9 +34,29 @@ public class LevelManager : MonoBehaviour
         playingLevel = levelData;
     }
 
-    private void LoadJsonData()
+    private void LoadData()
     {
         string data = File.ReadAllText(jsonPath);
         levelDataList = JsonConvert.DeserializeObject<LevelDataList>(data);
+        for (int i = 0; i < levelDataList.levelList.Count; i++)
+        {
+            levelDataList.levelList[i].iD = i;
+        }
+    }
+
+    private void SaveData()
+    {
+        string data = JsonConvert.SerializeObject(levelDataList, Formatting.Indented);
+        File.WriteAllText(jsonPath, data);
+    }
+
+    public void UpdatePlayingLevel(int starCnt)
+    {
+        if (starCnt > playingLevel.starCnt) playingLevel.starCnt = starCnt;
+        if (playingLevel.levelNumber == levelDataList.currentLevel)
+        {
+            levelDataList.currentLevel++;
+        }
+        SaveData();
     }
 }

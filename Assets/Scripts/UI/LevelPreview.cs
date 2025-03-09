@@ -52,13 +52,7 @@ public class LevelPreview : MonoBehaviour
 
     private void EnterLevel()
     {
-        MenuEvent.OnEnterLevel?.Invoke(currentData);
-        StartCoroutine(LoadSceneCoroutine());
-    }
-
-    private IEnumerator LoadSceneCoroutine()
-    {
-        yield return new WaitForSeconds(.7f);
-        SceneLoader.LoadScene(SceneName.Gameplay);
+        if(PlayerDataManager.Instance.CanEnterLevel())
+            MenuEvent.OnEnterLevel?.Invoke(currentData);
     }
 }

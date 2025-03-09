@@ -15,7 +15,7 @@ public class ScoreManager : MonoBehaviour
     void Awake()
     {
         if (Instance != null) Destroy(this);
-        Instance = this;
+        else Instance = this;
     }
     private void Start()
     {
@@ -79,6 +79,8 @@ public class ScoreManager : MonoBehaviour
         {
             if (candyLeftToHit == 0 && uIManager.starBar.GetActiveStar() == 3)
             {
+                //save level data
+                LevelManager.Instance.UpdatePlayingLevel(uIManager.starBar.GetActiveStar());
                 inputController.SetLockRayCast(true);
                 StartCoroutine(uIManager.WinLevelShow());
             }
@@ -89,12 +91,17 @@ public class ScoreManager : MonoBehaviour
             if (candyLeftToHit > 0)
             {
                 uIManager.loseBoard.SetActive(true);
+                PlayerDataManager.Instance.playerData.currentHealth--;
+                PlayerDataManager.Instance.SaveData();
             }
             else
             {
+                //save level data
+                LevelManager.Instance.UpdatePlayingLevel(uIManager.starBar.GetActiveStar());
                 if (uIManager.starBar.GetActiveStar() == 0) uIManager.loseBoard.SetActive(true);
                 else StartCoroutine(uIManager.WinLevelShow());
             }
         }
     }
+
 }

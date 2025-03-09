@@ -12,11 +12,20 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] private GameObject targetBoard;
     [SerializeField] private GameObject cardPrefab;
     [SerializeField] private Text turnTxt;
+    [SerializeField] private Button[] backMainButs;
+    [SerializeField] private GameObject loadingPanel;
+    [SerializeField] private Text healthTxt;
+    
     [HideInInspector] public List<UITargetCard> cards = new List<UITargetCard>();
 
     private void Start()
     {
         Controller.Instance.OnCandyMatched += SetTargetsText;
+        healthTxt.text = string.Format("{0} / {1}", PlayerDataManager.Instance.playerData.currentHealth, PlayerDataManager.Instance.playerData.maxHealth);
+        foreach (var item in backMainButs)
+        {
+            item.onClick.AddListener(LoadToMain);      
+        }
     }
     private void OnDisable()
     {
@@ -72,4 +81,15 @@ public class GameplayUIManager : MonoBehaviour
         }
     }
 
+    private void LoadToMain()
+    {
+        loadingPanel.SetActive(true);
+        StartCoroutine(LoadSceneCoroutine());
+    }
+
+    private IEnumerator LoadSceneCoroutine()
+    {
+        yield return new WaitForSeconds(.7f);
+        SceneLoader.LoadScene(SceneName.Main);
+    }
 }

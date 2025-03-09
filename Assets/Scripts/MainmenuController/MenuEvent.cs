@@ -4,6 +4,5 @@ using UnityEngine;
 
 public static class MenuEvent
 {
-    public static Action<LevelDataList> OnLoadLevelNodes;
     public static Action<LevelData> OnEnterLevel;
 }

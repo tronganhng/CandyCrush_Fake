@@ -2104,7 +2104,7 @@ GameObject:
   - component: {fileID: 809056641}
   - component: {fileID: 809056644}
   - component: {fileID: 809056643}
-  - component: {fileID: 809056642}
+  - component: {fileID: 809056645}
   m_Layer: 5
   m_Name: Loading
   m_TagString: Untagged
@@ -2134,27 +2134,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!95 &809056642
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 809056640}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2896e38ec814c481a93c92110c586875, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &809056643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2193,6 +2172,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 809056640}
   m_CullTransparentMesh: 1
+--- !u!95 &809056645
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809056640}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2896e38ec814c481a93c92110c586875, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &853230267
 GameObject:
   m_ObjectHideFlags: 0
@@ -3985,6 +3985,12 @@ MonoBehaviour:
   targetBoard: {fileID: 304519427}
   cardPrefab: {fileID: 8180524926391566668, guid: 1084de77367ae4ee3a89167470ef4a62, type: 3}
   turnTxt: {fileID: 1876179543}
+  backMainButs:
+  - {fileID: 1674150703}
+  - {fileID: 363998823}
+  - {fileID: 1795601202}
+  loadingPanel: {fileID: 809056640}
+  healthTxt: {fileID: 42187357}
   cards: []
 --- !u!1 &1795601199
 GameObject:
