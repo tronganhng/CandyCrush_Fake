@@ -1,8 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public class MatrixCollection
+{
+    public List<JsonMatrix> matrixList;
+}
+
 public class JsonMatrix
 {
+    public int levelNumber;
     public List<List<int[]>> pairMatrix; // ma trận chứa các cặp (color, hitType)
 
     public void InvertMatrix() // đảo ngược trục y ma trận
@@ -13,16 +19,5 @@ public class JsonMatrix
             clone.Add(pairMatrix[y]);
         }
         pairMatrix = clone;
-    }
-}
-
-public class Pair
-{
-    public int color;
-    public int hitType;
-    public Pair(int color, int hitType)
-    {
-        this.color = color;
-        this.hitType = hitType;
     }
 }

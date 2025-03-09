@@ -32,7 +32,11 @@ public class CandyCreator : MonoBehaviour
     private void LoadMatrixByJson()
     {
         string data = File.ReadAllText(jsonPath);
-        jsonMatrix = JsonConvert.DeserializeObject<JsonMatrix>(data);
+        MatrixCollection matrixCollection = JsonConvert.DeserializeObject<MatrixCollection>(data);
+        foreach (var item in matrixCollection.matrixList)
+        {
+            if(item.levelNumber == LevelManager.Instance.playingLevel.levelNumber) jsonMatrix = item;
+        }
         jsonMatrix.InvertMatrix();
         for (int i = 0; i < matrixSize.x; i++)
         {

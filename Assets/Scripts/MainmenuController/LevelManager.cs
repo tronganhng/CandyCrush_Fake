@@ -19,7 +19,7 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject); // Nếu đã có instance, hủy GameObject mới để tránh trùng lặp
+            Destroy(gameObject);
         }
         LoadData();
     }

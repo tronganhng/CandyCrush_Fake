@@ -1,5 +1,5 @@
 {
-  "currentLevel": 4,
+  "currentLevel": 5,
   "levelList": [
     {
       "iD": 0,
@@ -16,7 +16,7 @@
           "amount": 5
         }
       ],
-      "totalTurn": 1,
+      "totalTurn": 10,
       "starCnt": 2
     },
     {
@@ -27,6 +27,11 @@
           "color": 4,
           "hitType": 0,
           "amount": 15
+        },
+        {
+          "color": 1,
+          "hitType": 0,
+          "amount": 13
         }
       ],
       "totalTurn": 12,
@@ -52,10 +57,59 @@
         {
           "color": 4,
           "hitType": 3,
-          "amount": 2
+          "amount": 1
         }
       ],
       "totalTurn": 13,
+      "starCnt": 3
+    },
+    {
+      "iD": 4,
+      "levelNumber": 5,
+      "targets": [
+        {
+          "color": 0,
+          "hitType": 2,
+          "amount": 3
+        },
+        {
+          "color": 2,
+          "hitType": 2,
+          "amount": 3
+        }
+      ],
+      "totalTurn": 13,
+      "starCnt": 0
+    },
+    {
+      "iD": 5,
+      "levelNumber": 6,
+      "targets": [
+        {
+          "color": 6,
+          "hitType": 4,
+          "amount": 2
+        }
+      ],
+      "totalTurn": 12,
+      "starCnt": 0
+    },
+    {
+      "iD": 6,
+      "levelNumber": 7,
+      "targets": [
+        {
+          "color": 6,
+          "hitType": 4,
+          "amount": 2
+        },
+        {
+          "color": 2,
+          "hitType": 3,
+          "amount": 5
+        }
+      ],
+      "totalTurn": 12,
       "starCnt": 0
     }
   ]
